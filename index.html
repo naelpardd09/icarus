@@ -134,6 +134,22 @@
         .modal-content { width: 80%; max-width: 500px; background: #1e293b; padding: 20px; border-radius: 20px; }
         .img-container { width: 100%; height: 350px; background: #000; margin-bottom: 20px; }
         #imageToCrop { max-width: 100%; }
+
+        .card-footer-note {
+            position: absolute;
+            bottom: 30px;         /* Jarak dari bawah kartu */
+            left: 285px;          /* Pas di sebelah kanan frame foto (250px foto + gap) */
+            width: 450px;         /* Lebar dibatasi supaya gak nabrak stempel/TTD */
+            font-size: 8.5px;     /* Ukuran pas untuk teks panjang */
+            color: #475569;
+            font-weight: 800;
+            line-height: 1.3;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 50;
+            pointer-events: none;
+            text-align: justify;  /* Biar ujung kanan kiri rata, lebih formal */
+        }
     </style>
 </head>
 <body>
@@ -278,6 +294,10 @@
                         <div class="license-no-value" id="cLicense">SR/IC-0001</div>
                     </div>
                 </div>
+
+                <div class="card-footer-note">
+                    THIS CERTIFIES THAT THE BEARER IS AUTHORIZED TO OPERATE REGISTERED VESSELS WITHIN THE JURISDICTION OF ROXWOOD, STRICTLY LIMITED TO THE RATINGS HELD AND DOCUMENTED.
+                </div>
                 
                 <div class="main-info">
                     <div class="info-item full">
@@ -417,9 +437,15 @@
         canvas.toBlob(async (blob) => {
             const formData = new FormData();
             const payload = {
-                content: `🚨 **LISENSI PELAUT BARU** 🚨\n👤 **Nama:** ${document.getElementById('nama').value}\n📞 **No Telp:** ${phone}\n🆔 **No. Lic:** ${document.getElementById('license').value}\n✍️ **Petugas:** ${officerName}`,
-                username: "ICARUS AUTHORITY"
-            };
+    content: `🚨 **LISENSI PELAUT BARU** 🚨
+\`\`\`
+👤 Nama    : ${document.getElementById('nama').value}
+📞 No Telp : ${phone}
+🆔 No. Lic : ${document.getElementById('license').value}
+✍️ Petugas : ${officerName}
+\`\`\``,
+    username: "ICARUS AUTHORITY"
+};
             formData.append("payload_json", JSON.stringify(payload));
             formData.append("file", blob, "license.png");
 
